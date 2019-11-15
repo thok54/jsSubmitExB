@@ -13,9 +13,8 @@ console.log(flatten(sample));
 
 
 
-
-
 // ****   2.Acceso en profundidad          ***///
+console.log("");
 console.log("*** 2.Acceso en profundidad  ***");
 
 //Apartado A
@@ -53,17 +52,11 @@ console.log(deepGet(myObject));
 console.log("");
 console.log("Apartado B");
 
-let deepSet = (value, obj, ...pathArr) => {
+let deepSet = (value, nestedObj, ...pathArr) => {
+    let endPath = pathArr[pathArr.length - 1];
 
-    if (pathArr.length > 1) {
-        if (!obj.hasOwnProperty(pathArr[0]) || typeof obj[pathArr[0]] !== "object") obj[pathArr[0]] = {}
-
-        return deepSet(pathArr.slice(1), value, obj[pathArr[0]])
-
-    } else {
-        obj[pathArr[0]] = value
-        return true
-    }
+    pathArr.reduce((obj, key) =>
+        (endPath === key) ? obj[key] = value : (obj && obj[key] !== 'undefined') ? obj[key] : undefined, nestedObj);
 }
 
 
@@ -93,33 +86,6 @@ type tree = {
 
 const tree1: tree = { node: 1, sons: [{ node: 2, sons: [] }, { node: 3, sons: [{ node: 4, sons: [] }] }] };
 console.log(tree1);
-
-
-
-// ****   4.Trazas por consola          ***///
-console.log("");
-console.log("*** 4.Trazas por consola  ***");
-
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-const showMessage = async ([time, message]) => {
-    await delay(time);
-    console.log(message);
-};
-
-const triggers = [
-    async () => await showMessage([200, "third"]),
-    async () => await showMessage([100, "second"])
-];
-
-async function run(triggers) {
-    for (const t of triggers) {
-        await t();
-    }
-    console.log("first");
-}
-
-run(triggers);
 
 
 
@@ -162,3 +128,32 @@ console.log(memoizedGreet(3, "chun"));
 console.log(memoizedGreet(1, "pam"));
 console.log(memoizedGreet(3, "chun"));
 console.log(count);
+
+
+
+
+
+// ****   4.Trazas por consola          ***///
+console.log("");
+console.log("*** 4.Trazas por consola  ***");
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const showMessage = async ([time, message]) => {
+    await delay(time);
+    console.log(message);
+};
+
+const triggers = [
+    async () => await showMessage([200, "third"]),
+    async () => await showMessage([100, "second"])
+];
+
+async function run(triggers) {
+    for (const t of triggers) {
+        await t();
+    }
+    console.log("first");
+}
+
+run(triggers);
