@@ -54,9 +54,16 @@ console.log("Apartado B");
 
 let deepSet = (value, nestedObj, ...pathArr) => {
     let endPath = pathArr[pathArr.length - 1];
-
-    pathArr.reduce((obj, key) =>
-        (endPath === key) ? obj[key] = value : (obj && obj[key] !== 'undefined') ? obj[key] : undefined, nestedObj);
+    return pathArr.reduce(function (obj, key) {
+        if (endPath === key) {
+            console.log("success");
+            return obj[key] = value;
+        }
+        else if (obj && obj[key] !== 'undefined') {
+            console.log("loop");
+            return obj[key];
+        }
+    }, nestedObj);
 }
 
 
@@ -116,7 +123,7 @@ console.log("Apartado C");
 
 let count = 0;
 
-const repeatText = (repetitions: number, text: string): string =>
+const repeatText = (repetitions, text) =>
     (count++ , `${text}`.repeat(repetitions).trim());
 
 const memoizeC = func => func;
@@ -128,9 +135,6 @@ console.log(memoizedGreet(3, "chun"));
 console.log(memoizedGreet(1, "pam"));
 console.log(memoizedGreet(3, "chun"));
 console.log(count);
-
-
-
 
 
 // ****   4.Trazas por consola          ***///
