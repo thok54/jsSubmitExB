@@ -126,7 +126,7 @@ let count = 0;
 const repeatText = (repetitions, text) =>
     (count++ , `${text}`.repeat(repetitions).trim());
 
-const memoizeC = func => func;
+const memoizeC = (func) => (...args) => func(...args);
 
 const memoizedGreet = memoizeC(repeatText);
 
